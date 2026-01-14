@@ -3,11 +3,11 @@ const savedDate = localStorage.getItem("date");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// Se mudou o dia
+// Mudança de dia
 if (savedDate !== today) {
   tasks.forEach(task => {
     task.history = task.history || {};
-    task.history[savedDate] = task.done;
+    if (savedDate) task.history[savedDate] = task.done;
     task.done = false;
   });
 
@@ -39,28 +39,41 @@ function render() {
     div.className = "task" + (task.done ? " done" : "");
 
     div.innerHTML = `
-      <label>
+      <div class="task-left">
         <input type="checkbox" ${task.done ? "checked" : ""}>
-        <span contenteditable="true">${task.text}</span>
-      </label>
-      <button class="delete">🗑️</button>
+        <span contenteditable="false">${task.text}</span>
+      </div>
+      <div class="actions">
+        <button class="edit">✏️</button>
+        <button class="delete">🗑️</button>
+      </div>
     `;
 
-    // Marcar feito
-    div.querySelector("input").addEventListener("change", () => {
-      task.done = !task.done;
+    const checkbox = div.querySelector("input");
+    const text = div.querySelector("span");
+    const editBtn = div.querySelector(".edit");
+    const deleteBtn = div.querySelector(".delete");
+
+    checkbox.addEventListener("change", () => {
+      task.done = checkbox.checked;
       save();
       render();
     });
 
-    // Editar texto
-    div.querySelector("span").addEventListener("blur", (e) => {
-      task.text = e.target.innerText.trim();
-      save();
+    editBtn.addEventListener("click", () => {
+      if (text.isContentEditable) {
+        text.contentEditable = "false";
+        task.text = text.innerText.trim();
+        editBtn.innerText = "✏️";
+        save();
+      } else {
+        text.contentEditable = "true";
+        text.focus();
+        editBtn.innerText = "💾";
+      }
     });
 
-    // Apagar
-    div.querySelector(".delete").addEventListener("click", () => {
+    deleteBtn.addEventListener("click", () => {
       tasks.splice(index, 1);
       save();
       render();
@@ -85,7 +98,6 @@ addBtn.addEventListener("click", () => {
   render();
 });
 
-render();
 function weeklyStats() {
   const last7Days = [...Array(7)].map((_, i) => {
     const d = new Date();
@@ -103,5 +115,7 @@ function weeklyStats() {
     });
   });
 
-  alert(`📊 Últimos 7 dias:\n✅ Feitos: ${done}\n❌ Não feitos: ${notDone}`);
+  alert(`📊 Estatísticas (7 dias)\n\n✅ Feitos: ${done}\n❌ Não feitos: ${notDone}`);
 }
+
+render();
