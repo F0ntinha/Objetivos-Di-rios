@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  background: #121212;
+  font-family: system-ui, -apple-system;
+  color: white;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+.date {
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+.task {
+  background: #1e1e1e;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.task.done span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.edit { color: #3b82f6; }
+.delete { color: #ef4444; }
+
+.add {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.add button {
+  background: #3b82f6;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.stats-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: #10b981;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+canvas {
+  margin-top: 20px;
+}
